@@ -9,3 +9,5 @@ pip install demucs
 pip install google-generativeai
 pip install python-dotenv
 pip install numpy
+pip install whisper
+# pip install moviepy pydub gtts pytubefix torch torchaudio openai-whisper demucs google-generativeai python-dotenv numpy
