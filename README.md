@@ -1,4 +1,4 @@
-# DubAI: Automated Video Dubbing System
+# DubAI: AI Video Dubbing System
 
 ## Introduction
 In an increasingly globalized world, the demand for multilingual video content is growing rapidly. **DubAI** is an automated video dubbing system designed to simplify the process of creating dubbed versions of YouTube videos in different languages. By leveraging state-of-the-art AI models and libraries for transcription, translation, and text-to-speech synthesis, DubAI automates the entire dubbing pipeline, making it accessible to content creators, educators, and businesses.
