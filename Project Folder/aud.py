@@ -30,4 +30,4 @@ def extract_audio_from_video(video_path = "vid.mp4", audio_path="aud.wav"):
         if 'video_clip' in locals() and video_clip is not None:
             video_clip.close()
 
-print(extract_audio_from_video("tempfile/vid.mp4", "tempfile/aud.wav"))
+# print(extract_audio_from_video("tempfile/vid.mp4", "tempfile/aud.wav"))
