@@ -70,14 +70,14 @@ def save_transcription(segments: List[Dict], output_file: str):
     
     print(f"Transcription saved to {output_file}")
 
-if __name__ == "__main__":
-    audio_file = "tempfile/aud/vocals.wav"
-    output_file = "tempfile/transcription.txt"
+# if __name__ == "__main__":
+#     audio_file = "tempfile/aud/vocals.wav"
+#     output_file = "tempfile/transcription.txt"
     
-    # Choose model size: 'tiny', 'base', 'small', 'medium', or 'large'
-    model_size = "small"  # Smaller models are faster but less accurate
+#     # Choose model size: 'tiny', 'base', 'small', 'medium', or 'large'
+#     model_size = "small"  # Smaller models are faster but less accurate
     
-    # Run transcription using local Whisper
-    segments = transcribe_with_local_whisper(audio_file, model_size)
-    save_transcription(segments, output_file)
-    print(f"Transcription complete: {audio_file} → {output_file}")
+#     # Run transcription using local Whisper
+#     segments = transcribe_with_local_whisper(audio_file, model_size)
+#     save_transcription(segments, output_file)
+#     print(f"Transcription complete: {audio_file} → {output_file}")

@@ -122,10 +122,10 @@ def dub_text_with_timestamps(input_file, lang, output_dir, final_output):
     return final_output
 
 # Hardcoded values
-input_file = "tempfile/transcription_hindi.txt"
-language = "hindi"  
-temp_directory = "tempfile/dubbed_temp"
-final_output = "tempfile/complete_dubbed.mp3"
+# input_file = "tempfile/transcription_hindi.txt"
+# language = "hindi"  
+# temp_directory = "tempfile/dubbed_temp"
+# final_output = "tempfile/complete_dubbed.mp3"
 
-# Execute the function with hardcoded values
-dub_text_with_timestamps(input_file, language, temp_directory, final_output)
+# # Execute the function with hardcoded values
+# dub_text_with_timestamps(input_file, language, temp_directory, final_output)

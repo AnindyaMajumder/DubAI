@@ -85,4 +85,4 @@ def translate_transcript(transcript_file, target_language):
     print(f"Translation complete. Output saved to {output_file}")
 
     
-translate_transcript("tempfile/transcription.txt", input("Enter the target language: "))
+# translate_transcript("tempfile/transcription.txt", input("Enter the target language: "))

@@ -71,19 +71,19 @@ def add_audio_to_video(video_path, audio_path, output_path):
     except Exception as e:
         print(f"Error adding audio to video: {e}")
 
-if __name__ == "__main__":
-    # Paths for the input files
-    video_path = "tempfile/vid.mp4"
-    dubbed_audio_path = "tempfile/complete_dubbed.mp3"
-    music_path = "tempfile/aud/music.wav"
+# if __name__ == "__main__":
+#     # Paths for the input files
+#     video_path = "tempfile/vid.mp4"
+#     dubbed_audio_path = "tempfile/complete_dubbed.mp3"
+#     music_path = "tempfile/aud/music.wav"
     
-    # Output paths
-    combined_audio_path = "tempfile/temp-audio.m4a"
-    output_video_path = "output.mp4"
+#     # Output paths
+#     combined_audio_path = "tempfile/temp-audio.m4a"
+#     output_video_path = "output.mp4"
     
-    # Step 1 & 2: Merge the audio files
-    merged_audio = merge_audio_tracks(dubbed_audio_path, music_path, combined_audio_path)
+#     # Step 1 & 2: Merge the audio files
+#     merged_audio = merge_audio_tracks(dubbed_audio_path, music_path, combined_audio_path)
     
-    # Step 3: Add the combined audio to the muted video
-    if merged_audio:
-        add_audio_to_video(video_path, merged_audio, output_video_path)
+#     # Step 3: Add the combined audio to the muted video
+#     if merged_audio:
+#         add_audio_to_video(video_path, merged_audio, output_video_path)

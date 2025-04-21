@@ -6,51 +6,95 @@ import translate
 import dubbed
 import merge_aud
 
+def get_language_code(language):
+    # You can expand this mapping as needed
+    mapping = {
+        "hindi": "hi",
+        "english": "en",
+        "spanish": "es",
+        "french": "fr",
+        "german": "de",
+        "bengali": "bn",
+        "tamil": "ta",
+        "telugu": "te",
+        "japanese": "ja",
+        "korean": "ko",
+        "chinese": "zh",
+        "marathi": "mr",
+        "gujarati": "gu",
+        "punjabi": "pa",
+        "urdu": "ur",
+        "russian": "ru",
+        "portuguese": "pt",
+        "italian": "it",
+        "turkish": "tr",
+        "arabic": "ar",
+        "thai": "th",
+        "malayalam": "ml",
+        "kannada": "kn",
+        "oriya": "or",
+        "assamese": "as",
+        "nepali": "ne",
+        "sinhala": "si",
+        "burmese": "my",
+        "khmer": "km",
+        "vietnamese": "vi",
+        "indonesian": "id",
+        "swahili": "sw",
+        "filipino": "tl",
+    }
+    return mapping.get(language.lower(), language)
+
 if __name__ == "__main__":
-    print("=== DubAI Automated Video Dubbing Pipeline ===\n")
+    # 🎥 Step 0: Download the YouTube Video
+    print("📥 Enter the URL of the YouTube video to download:")
+    yt_download.video_download(input())
+    print("🌍 Enter the target language for translation:")
+    translation_lan = input().lower()
+    print("\n\n")
 
-    # 1. Download YouTube video
-    url = input("Enter the URL of the YouTube video: ")
-    yt_download.video_download(url)
+    # 🎵 Step 1: Extract Audio from Video
+    print("🎞️ Extracting audio from video...")
+    aud.extract_audio_from_video("tempfile/vid.mp4", "tempfile/aud.wav")
+    print("✅ Audio extracted successfully!\n")
+
+    # 🎤 Step 2: Separate Vocals and Music
+    print("🎧 Wait a little longer... Audio separation in progress...")
+    sep.separate_audio("tempfile/aud.wav", "tempfile/aud")
+    print("✅ Audio separation complete!\n")
+
+    # 📝 Step 3: Transcribe Audio to Text
+    print("📝 Transcribing vocals...")
+    audio_file = "tempfile/aud/vocals.wav"
+    output_file = "tempfile/transcription.txt"
+    segments = transcribe.transcribe_with_local_whisper(audio_file, "medium")
+    transcribe.save_transcription(segments, output_file)
+    print(f"✅ Transcription complete: {audio_file} → {output_file}\n")
+
+    # 🌐 Step 4: Translate Transcription
+    translate.translate_transcript("tempfile/transcription.txt", translation_lan)
+    print("✅ Translation complete!\n")
+
+    # 🗣️ Step 5: Generate Dubbed Audio with Translation
+    print("🔊 Generating dubbed audio with translated text...")
+    input_file = f"tempfile/transcription_{translation_lan.replace(' ', '_')}.txt"
+    language = get_language_code(translation_lan)
+    temp_directory = "tempfile/dubbed_temp"
+    final_output = "tempfile/complete_dubbed.mp3"
+    dubbed.dub_text_with_timestamps(input_file, language, temp_directory, final_output)
+    print("✅ Dubbed audio generation complete!\n")
+
+    # 🎬 Step 6: Merge Audio Tracks and Add to Video
+    print("🎵 Merging dubbed audio and background music...")
     video_path = "tempfile/vid.mp4"
-
-    # 2. Extract audio from video
-    print("\nExtracting audio from video...")
-    audio_path = "tempfile/aud.wav"
-    aud.extract_audio_from_video(video_path, audio_path)
-
-    # 3. Separate vocals and music
-    print("\nSeparating vocals and music...")
-    sep.separate_audio(audio_path, "tempfile/aud")
-    vocals_path = "tempfile/aud/vocals.wav"
+    dubbed_audio_path = "tempfile/complete_dubbed.mp3"
     music_path = "tempfile/aud/music.wav"
-
-    # 4. Transcribe vocals
-    print("\nTranscribing vocals...")
-    transcription_path = "tempfile/transcription.txt"
-    transcribe.segments = transcribe.transcribe_with_local_whisper(vocals_path, model_size="small")
-    transcribe.save_transcription(transcribe.segments, transcription_path)
-
-    # 5. Translate transcript
-    print("\nTranslating transcript...")
-    target_language = input("Enter the target language: ")
-    translate.translate_transcript(transcription_path, target_language)
-    translated_transcript_path = f"tempfile/transcription_{target_language.lower().replace(' ', '_')}.txt"
-
-    # 6. Generate dubbed audio
-    print("\nGenerating dubbed audio...")
-    dubbed_output_dir = "tempfile/dubbed_temp"
-    dubbed_final_output = "tempfile/complete_dubbed.mp3"
-    dubbed.dub_text_with_timestamps(translated_transcript_path, target_language, dubbed_output_dir, dubbed_final_output)
-
-    # 7. Merge dubbed audio with background music
-    print("\nMerging dubbed audio with background music...")
     combined_audio_path = "tempfile/temp-audio.m4a"
-    merge_aud.merge_audio_tracks(dubbed_final_output, music_path, combined_audio_path)
-
-    # 8. Add merged audio to video
-    print("\nAdding merged audio to video...")
     output_video_path = "output.mp4"
-    merge_aud.add_audio_to_video(video_path, combined_audio_path, output_video_path)
-
-    print("\n=== Pipeline Complete! Output saved as output.mp4 ===")
+    merged_audio = merge_aud.merge_audio_tracks(dubbed_audio_path, music_path, combined_audio_path)
+    if merged_audio:
+        print("🎥 Adding merged audio to the video...")
+        merge_aud.add_audio_to_video(video_path, merged_audio, output_video_path)
+        print(f"✅ Video with dubbed audio created successfully: {output_video_path}\n")
+    else:
+        print("❌ Failed to merge audio tracks!\n")
