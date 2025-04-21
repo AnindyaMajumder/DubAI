@@ -39,11 +39,15 @@ def adjust_audio_duration(audio_segment, target_duration_ms):
     if current_duration_ms == 0:
         return AudioSegment.silent(duration=target_duration_ms)
     
+    # Prevent division by zero
+    if target_duration_ms == 0:
+        return AudioSegment.silent(duration=1)  # Return minimal silence
+    
     # Calculate the necessary speed factor
     speed_factor = current_duration_ms / target_duration_ms
     
-    if abs(speed_factor - 1.0) < 0.05:  # If difference is less than 5%
-        return audio_segment
+    # if abs(speed_factor - 1.0) < 0.05:  # If difference is less than 5%
+    #     return audio_segment
     
     # Limit speed adjustment to reasonable bounds
     speed_factor = max(0.5, min(2.0, speed_factor))
@@ -118,8 +122,8 @@ def dub_text_with_timestamps(input_file, lang, output_dir, final_output):
     return final_output
 
 # Hardcoded values
-input_file = "tempfile/transcription_spanish.txt"
-language = "es"  
+input_file = "tempfile/transcription_hindi.txt"
+language = "hindi"  
 temp_directory = "tempfile/dubbed_temp"
 final_output = "tempfile/complete_dubbed.mp3"
 
